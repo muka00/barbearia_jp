@@ -1,0 +1,18 @@
+﻿# Ambiente virtual
+venv/
+env/
+
+# Python e Caches
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+
+# Banco de dados local
+instance/
+*.db
+*.sqlite
+
+# IDEs
+.vscode/
+.idea/
