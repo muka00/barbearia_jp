@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card shadow-sm border-0 mb-3">
+    <div class="card-body p-3 bg-light rounded">
+        <span class="badge bg-secondary mb-1">Resumo da Seleção</span>
+        <p class="mb-0 fw-bold">{{ servico.nome }} (R$ {{ "%.2f"|format(servico.preco) }})</p>
+        <small class="text-muted">Data escolhida: {{ data }}</small>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+        <h2 class="h5 card-title mb-3 text-center fw-bold">2. Escolha o Horário e Se Identifique</h2>
+
+        <form action="{{ url_for('tela2_grade') }}" method="POST">
+            <input type="hidden" name="servico_id" value="{{ servico.id }}">
+            <input type="hidden" name="data" value="{{ data }}">
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold d-block mb-2">Horários Vagos:</label>
+                <div class="row g-2">
+                    {% for h in horarios %}
+                        <div class="col-4">
+                            <input type="radio" class="btn-check" name="horario" id="h_{{ loop.index }}" value="{{ h }}" required>
+                            <label class="btn btn-outline-primary w-100 btn-touch fw-bold" for="h_{{ loop.index }}">
+                                {{ h }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="nome" class="form-label fw-semibold">Seu Nome Completo:</label>
+                <input type="text" name="nome" id="nome" class="form-control btn-touch" placeholder="Ex: Lucas Silva" required minlength="3">
+            </div>
+
+            <div class="mb-4">
+                <label for="whatsapp" class="form-label fw-semibold">Seu WhatsApp (com DDD):</label>
+                <input type="tel" name="whatsapp" id="whatsapp" class="form-control btn-touch" placeholder="Ex: 12987654321" required minlength="10">
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 btn-touch fw-bold">
+                Confirmar Agendamento
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia JP - Agendamento Online</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Acessibilidade RNF04: Área de toque mínima de 44px */
+        .btn-touch {
+            min-height: 44px;
+            min-width: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        /* Contraste e foco visível */
+        body {
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        :focus-visible {
+            outline: 3px solid #0d6efd !important;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-dark text-white py-3 mb-4 shadow-sm">
+        <div class="container text-center">
+            <h1 class="h3 mb-0 fw-bold">Barbearia JP</h1>
+            <p class="small mb-0 text-light">Agendamento rápido e simples</p>
+        </div>
+    </header>
+
+    <main class="container" style="max-width: 500px;">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} role="alert" aria-live="polite">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-center py-4 text-muted small mt-5">
+        <p class="mb-0">Barbearia JP &copy; 2026 - Atendimento Comunitário</p>
+    </footer>
+</body>
+</html>

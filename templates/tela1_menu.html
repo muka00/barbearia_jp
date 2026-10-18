@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+        <h2 class="h5 card-title mb-3 text-center fw-bold">1. Escolha o Serviço e a Data</h2>
+        
+        <form action="{{ url_for('tela1_menu') }}" method="POST">
+            <div class="mb-3">
+                <label for="servico_id" class="form-label fw-semibold">Serviço desejado:</label>
+                <select name="servico_id" id="servico_id" class="form-select btn-touch" required>
+                    <option value="" selected disabled>Selecione um serviço...</option>
+                    {% for servico in servicos %}
+                        <option value="{{ servico.id }}">
+                            {{ servico.nome }} — R$ {{ "%.2f"|format(servico.preco) }} ({{ servico.duracao_min }} min)
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="data_agendamento" class="form-label fw-semibold">Data do Atendimento:</label>
+                <input type="date" name="data_agendamento" id="data_agendamento" class="form-control btn-touch" value="{{ data_hoje }}" min="{{ data_hoje }}" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-touch fw-bold">
+                Ver Horários Disponíveis
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
