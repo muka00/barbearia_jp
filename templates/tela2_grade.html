@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-card mb-3">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <div class="section-label">Serviço Selecionado</div>
+            <h2 class="fw-bold fs-5 mb-0" style="color: var(--azul-petroleo);">{{ servico.nome }}</h2>
+        </div>
+        <div class="text-end">
+            <span class="fw-bold text-white fs-5">R$ {{ "%.2f"|format(servico.preco) }}</span>
+            <div class="text-secondary small"><i class="bi bi-calendar3 me-1"></i>{{ data_fmt }}</div>
+        </div>
+    </div>
+</div>
+
+<form action="/agendar" method="POST">
+    <input type="hidden" name="servico_id" value="{{ servico.id }}">
+    <input type="hidden" name="data" value="{{ data }}">
+
+    <div class="glass-card">
+        <div class="form-label-custom mb-3">HORÁRIOS DISPONÍVEIS</div>
+
+        {% if horarios %}
+            <div class="slots-grid mb-4">
+                {% for h in horarios %}
+                    <div>
+                        <input type="radio" class="btn-check-slot" name="horario" id="h_{{ loop.index }}" value="{{ h }}" required>
+                        <label class="slot-label w-100" for="h_{{ loop.index }}">{{ h }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="mb-3">
+                <label for="nome" class="form-label-custom">SEU NOME COMPLETO</label>
+                <input type="text" class="form-control form-control-custom" id="nome" name="nome" placeholder="Ex: Arthur Melo" minlength="3" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="whatsapp" class="form-label-custom">WHATSAPP (COM DDD)</label>
+                <input type="tel" class="form-control form-control-custom" id="whatsapp" name="whatsapp" placeholder="Ex: 12999998888" minlength="10" required>
+            </div>
+
+            <button type="submit" class="btn-action">
+                <span>Confirmar Agendamento</span>
+                <i class="bi bi-check-lg"></i>
+            </button>
+        {% else %}
+            <div class="text-center py-4">
+                <div class="text-warning fs-1 mb-2"><i class="bi bi-calendar-x"></i></div>
+                <h3 class="fw-bold fs-6 text-white mb-2">Agenda Lotada</h3>
+                <p class="text-secondary small mb-4">Não há horários disponíveis para esta data. Por favor, volte e escolha outro dia.</p>
+            </div>
+        {% endif %}
+        
+        <a href="/" class="btn-secondary-custom">
+            Voltar e alterar data
+        </a>
+    </div>
+</form>
+{% endblock %}
