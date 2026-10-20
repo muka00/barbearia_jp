@@ -1,0 +1,438 @@
+/* =========================================
+   VARIÁVEIS GLOBAIS E TEMA (BARBEARIA PREMIUM)
+   ========================================= */
+:root {
+    /* Fundo escuro carvão/couro */
+    --bg-grafite: #121212;       
+    --card-grafite: #1c1c1e;     
+    
+    /* Dourado / Latão (O toque de classe) */
+    --destaque-ouro: #d4af37;    
+    --destaque-hover: #b5952f;   
+    
+    /* Textos */
+    --branco-puro: #f8f9fa;
+    --texto-cinza: #a1a1aa;
+    
+    /* Bordas */
+    --border-subtle: rgba(212, 175, 55, 0.15);
+    --border-hover: rgba(212, 175, 55, 0.4);
+}
+
+/* Tema de Alto Contraste */
+body.high-contrast {
+    --bg-grafite: #000000;
+    --card-grafite: #111111;
+    --destaque-ouro: #ffff00;
+    --destaque-hover: #cccc00;
+    --branco-puro: #ffffff;
+    --texto-cinza: #ffffff;
+    --border-subtle: #ffffff;
+}
+
+/* =========================================
+   RESET E LAYOUT BASE
+   ========================================= */
+body {
+    background-color: var(--bg-grafite);
+    background-image: radial-gradient(at 50% 0%, rgba(212, 175, 55, 0.08) 0px, transparent 60%);
+    background-attachment: fixed;
+    color: var(--branco-puro);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+
+.app-view {
+    width: 100%;
+    max-width: 680px;
+    padding: 1.5rem 1.2rem;
+    margin: auto;
+    box-sizing: border-box;
+}
+
+/* =========================================
+   HEADER, LOGO E IMAGEM
+   ========================================= */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.5rem;
+}
+
+.brand-logo {
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: -0.5px;
+    color: var(--branco-puro);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.brand-logo-img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.3)); 
+    transition: transform 0.2s ease;
+}
+
+.brand-logo:hover .brand-logo-img {
+    transform: scale(1.05);
+}
+
+.brand-badge {
+    background: linear-gradient(135deg, var(--destaque-ouro), #997a1b);
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #121212;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.btn-accessibility {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    color: var(--texto-cinza);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-accessibility:hover {
+    color: var(--destaque-ouro);
+    border-color: var(--border-hover);
+}
+
+/* =========================================
+   COMPONENTES GERAIS (CARD)
+   ========================================= */
+.glass-card {
+    background-color: var(--card-grafite);
+    border: 1px solid var(--border-subtle);
+    border-radius: 24px;
+    padding: 1.6rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--destaque-ouro);
+    margin-bottom: 0.4rem;
+}
+
+/* =========================================
+   FORMULÁRIOS
+   ========================================= */
+.form-label-custom {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--texto-cinza);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control-custom, .form-select-custom {
+    background-color: #121212;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--branco-puro) !important;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+}
+.form-control-custom:focus, .form-select-custom:focus {
+    background-color: #121212;
+    border-color: var(--destaque-ouro);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+    outline: none;
+}
+
+/* =========================================
+   BOTÕES
+   ========================================= */
+.btn-action {
+    width: 100%;
+    background: linear-gradient(135deg, var(--destaque-ouro) 0%, var(--destaque-hover) 100%);
+    color: #121212;
+    font-weight: 800;
+    font-size: 0.95rem;
+    padding: 14px;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+}
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(212, 175, 55, 0.4);
+    color: #121212;
+}
+
+.btn-secondary-custom {
+    background: transparent;
+    color: var(--texto-cinza);
+    border: 1px solid var(--border-subtle);
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 14px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin-top: 0.8rem;
+    transition: all 0.2s;
+}
+.btn-secondary-custom:hover {
+    color: var(--destaque-ouro);
+    background: rgba(212, 175, 55, 0.05);
+    border-color: var(--border-hover);
+}
+
+/* =========================================
+   HORÁRIOS (SLOTS)
+   ========================================= */
+.slots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+}
+.btn-check-slot { display: none; }
+.slot-label {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--branco-puro);
+    padding: 10px 0;
+    text-align: center;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: block;
+}
+.slot-label:hover {
+    border-color: var(--border-hover);
+    background: rgba(212, 175, 55, 0.05);
+}
+.btn-check-slot:checked + .slot-label {
+    background: var(--destaque-ouro);
+    border-color: var(--destaque-ouro);
+    color: #121212;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+/* =========================================
+   ALERTAS
+   ========================================= */
+.alert-custom {
+    background-color: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+    border-radius: 14px;
+    padding: 12px;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* =========================================
+   ESTILOS DA LANDING PAGE (INDEX)
+   ========================================= */
+.hero-section {
+    background: linear-gradient(rgba(18, 18, 18, 0.6), rgba(18, 18, 18, 0.95)), 
+                url("../imagens/barbearia.jpg") center/cover no-repeat;
+    min-height: 380px;
+    border-radius: 24px;
+    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    margin-bottom: 1.2rem;
+}
+.hero-overlay {
+    min-height: 380px;
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.hero-badge {
+    background: rgba(212, 175, 55, 0.1) !important;
+    color: var(--destaque-ouro) !important;
+    border: 1px solid var(--border-hover);
+    letter-spacing: 2px;
+}
+
+.hero-text {
+    color: #e2e8f0 !important;
+    opacity: 0.9;
+    max-width: 480px;
+    font-weight: 500;
+    line-height: 1.6;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+body.high-contrast .hero-text {
+    color: #ffffff !important;
+    text-shadow: none;
+}
+
+.icon-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--destaque-ouro);
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid var(--border-subtle);
+}
+
+/* =========================================
+   LOGO NA SEÇÃO HISTÓRIA (NOVO)
+   ========================================= */
+.logo-circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(212, 175, 55, 0.05);
+    border: 1px solid var(--border-hover);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    padding: 10px;
+}
+
+.history-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.2)); 
+    transition: transform 0.3s ease;
+}
+
+.logo-circle:hover .history-logo {
+    transform: scale(1.08);
+}
+
+/* =========================================
+   PREÇOS DA TABELA
+   ========================================= */
+.price-item {
+    border-bottom: 1px solid var(--border-subtle);
+    transition: background 0.2s ease;
+}
+.price-item:last-child { border-bottom: 0; }
+.price-item:hover { background: rgba(212, 175, 55, 0.03); }
+
+/* =========================================
+   ESTILOS DA TELA DE SUCESSO (TELA 3)
+   ========================================= */
+.btn-whatsapp {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+    color: white !important;
+}
+.btn-whatsapp:hover {
+    box-shadow: 0 12px 25px rgba(37, 211, 102, 0.5);
+    color: white !important;
+}
+.ticket-box {
+    background: #121212;
+    border: 1px dashed var(--destaque-ouro);
+    border-radius: 16px;
+}
+
+/* =========================================
+   RODAPÉ PREMIUM (NOVO)
+   ========================================= */
+.footer-premium {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Um brilho dourado sutil no fundo do rodapé */
+.footer-premium::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.btn-whatsapp-footer {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(37, 211, 102, 0.1);
+    color: #25D366;
+    border: 1px solid rgba(37, 211, 102, 0.3);
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-whatsapp-footer:hover {
+    background: #25D366;
+    color: #121212;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    transform: translateY(-2px);
+}
+
+.footer-premium h5 {
+    letter-spacing: 0.5px;
+}
+
+.footer-bottom p {
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+@media (max-width: 576px) {
+    .hero-section, .hero-overlay { min-height: 320px; }
+    .hero-overlay { padding: 2rem 1rem; }
+    .slots-grid { grid-template-columns: repeat(2, 1fr); }
+    .brand-logo-img { height: 32px; }
+    .logo-circle { width: 70px; height: 70px; padding: 8px; }
+}
+
+@media (max-width: 767.98px) {
+    .footer-premium { text-align: center; }
+    .footer-premium .btn-whatsapp-footer { width: 100%; justify-content: center; }
+}

@@ -1,47 +1,99 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="glass-card text-center py-4">
-    <div class="mb-3">
-        <span class="badge bg-primary bg-opacity-20 text-info rounded-circle p-3 fs-3">
-            <i class="bi bi-check-circle-fill"></i>
+<div class="glass-card text-center py-5">
+    <!-- Ícone de Sucesso em Dourado -->
+    <div class="mb-4">
+        <span class="brand-badge mx-auto" style="width: 70px; height: 70px; font-size: 2.2rem;">
+            <i class="bi bi-check-lg"></i>
         </span>
     </div>
     
     <div class="section-label">Reserva Concluída</div>
-    <h1 class="fw-bold fs-4 mb-3">Tudo Certo, Chefe!</h1>
+    <h1 class="fw-bold fs-3 mb-4">Tudo Certo, Chefe!</h1>
 
-    <div class="text-start bg-dark bg-opacity-50 p-3 rounded-4 border border-white border-opacity-10 mb-4 font-monospace fs-6">
-        <div class="d-flex justify-content-between mb-2">
-            <span class="text-secondary">Ticket:</span>
+    <!-- Recibo (Ticket) -->
+    <div class="ticket-box p-4 text-start mb-4 font-monospace" style="font-size: 0.9rem;">
+        <div class="d-flex justify-content-between mb-3">
+            <span class="text-light opacity-75">Ticket:</span>
             <span class="fw-bold text-white">#JP-{{ agendamento.id }}</span>
         </div>
-        <div class="d-flex justify-content-between mb-2">
-            <span class="text-secondary">Cliente:</span>
-            <span class="text-white">{{ agendamento.cliente_nome }}</span>
+        <div class="d-flex justify-content-between mb-3">
+            <span class="text-light opacity-75">Cliente:</span>
+            <span class="text-white text-end ms-3">{{ agendamento.cliente_nome }}</span>
         </div>
-        <div class="d-flex justify-content-between mb-2">
-            <span class="text-secondary">Estilo/Corte:</span>
-            <span class="text-white">{{ agendamento.servico.nome }}</span>
+        <div class="d-flex justify-content-between mb-3">
+            <span class="text-light opacity-75">Serviço:</span>
+            <span class="text-white text-end ms-3">{{ agendamento.servico.nome }}</span>
         </div>
-        <div class="d-flex justify-content-between mb-2">
-            <span class="text-secondary">Data / Hora:</span>
+        <div class="d-flex justify-content-between mb-3">
+            <span class="text-light opacity-75">Data / Hora:</span>
             <span class="text-white">{{ agendamento.data_hora.strftime('%d/%m/%Y às %H:%M') }}</span>
         </div>
-        <hr class="border-secondary border-opacity-20 my-2">
-        <div class="d-flex justify-content-between">
-            <span class="text-secondary">Total:</span>
-            <span class="fw-bold fs-5" style="color: var(--azul-petroleo);">R$ {{ "%.2f"|format(agendamento.servico.preco) }}</span>
+        
+        <hr class="border-secondary border-opacity-25 my-3">
+        
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="text-light opacity-75 fw-bold">Total:</span>
+            <span class="fw-bold fs-4" style="color: var(--destaque-ouro);">R$ {{ "%.2f"|format(agendamento.servico.preco) }}</span>
         </div>
     </div>
 
-    <a href="{{ link_whatsapp }}" target="_blank" class="btn-action btn-whatsapp-custom mb-2">
+    <!-- Botões de Ação -->
+    <a href="{{ link_whatsapp }}" target="_blank" class="btn-action btn-whatsapp mb-3">
         <i class="bi bi-whatsapp fs-5"></i>
         <span>Enviar Comprovante via WhatsApp</span>
     </a>
 
     <a href="/" class="btn-secondary-custom">
-        Novo Agendamento
+        <i class="bi bi-arrow-repeat me-1"></i> Fazer Novo Agendamento
     </a>
 </div>
+
+<!-- ===== RODAPÉ PREMIUM ===== -->
+<footer class="glass-card text-center text-md-start mb-0 footer-premium">
+    <div class="row g-4 align-items-center">
+        <!-- Coluna 1: Logo e Slogan -->
+        <div class="col-12 col-md-4 text-center text-md-start">
+            <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3 mb-2">
+                <img src="{{ url_for('static', filename='imagens/Logo.png') }}" alt="Logo Barbearia JP" style="height: 45px; width: auto;">
+                <div>
+                    <h5 class="fw-bold fs-6 text-white mb-0">Barbearia JP</h5>
+                    <span class="badge mt-1" style="background-color: var(--destaque-ouro); color: #121212; font-size: 0.6rem; letter-spacing: 1px;">DESDE 2014</span>
+                </div>
+            </div>
+            <p class="small text-light opacity-75 mb-0 mt-2">Excelência e estilo garantido para o seu visual.</p>
+        </div>
+
+        <!-- Coluna 2: Horários -->
+        <div class="col-12 col-md-4 text-center text-md-start">
+            <h5 class="fw-bold fs-6 text-white mb-3">
+                <i class="bi bi-clock me-1" style="color: var(--destaque-ouro);"></i> Horário
+            </h5>
+            <div class="d-flex flex-column gap-1">
+                <span class="small text-light opacity-75"><i class="bi bi-check2-circle me-1" style="color: var(--destaque-ouro);"></i> Terça a Sábado: 09:00 – 19:00</span>
+                <span class="small text-light opacity-75"><i class="bi bi-x-circle me-1 text-danger"></i> Domingo e Segunda: Fechado</span>
+            </div>
+        </div>
+
+        <!-- Coluna 3: Localização e Contato -->
+        <div class="col-12 col-md-4 text-center text-md-start">
+            <h5 class="fw-bold fs-6 text-white mb-3">
+                <i class="bi bi-geo-alt me-1" style="color: var(--destaque-ouro);"></i> Localização
+            </h5>
+            <p class="small text-light opacity-75 mb-2">Rua da Barbearia, Nº 100 — Centro</p>
+            
+            <a href="https://wa.me/5512999998888" target="_blank" class="btn-whatsapp-footer">
+                <i class="bi bi-whatsapp"></i> (12) 99999-8888
+            </a>
+        </div>
+    </div>
+
+    <!-- Linha Final de Copyright -->
+    <div class="footer-bottom mt-4 pt-3 text-center" style="border-top: 1px solid rgba(255,255,255,0.05);">
+        <p class="small mb-0" style="color: #6c757d;">
+            &copy; 2024 Barbearia JP. Todos os direitos reservados. Feito com <i class="bi bi-heart-fill text-danger" style="font-size: 0.7rem;"></i> e estilo.
+        </p>
+    </div>
+</footer>
 {% endblock %}

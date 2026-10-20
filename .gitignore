@@ -16,3 +16,6 @@ instance/
 # IDEs
 .vscode/
 .idea/
+# Sistema Operacional (NOVO)
+.DS_Store
+Thumbs.db

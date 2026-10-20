@@ -1,32 +1,100 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-<div class="card shadow-sm border-0">
-    <div class="card-body p-4">
-        <h2 class="h5 card-title mb-3 text-center fw-bold">1. Escolha o Serviço e a Data</h2>
-        
-        <form action="{{ url_for('tela1_menu') }}" method="POST">
-            <div class="mb-3">
-                <label for="servico_id" class="form-label fw-semibold">Serviço desejado:</label>
-                <select name="servico_id" id="servico_id" class="form-select btn-touch" required>
-                    <option value="" selected disabled>Selecione um serviço...</option>
-                    {% for servico in servicos %}
-                        <option value="{{ servico.id }}">
-                            {{ servico.nome }} — R$ {{ "%.2f"|format(servico.preco) }} ({{ servico.duracao_min }} min)
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="mb-4">
-                <label for="data_agendamento" class="form-label fw-semibold">Data do Atendimento:</label>
-                <input type="date" name="data_agendamento" id="data_agendamento" class="form-control btn-touch" value="{{ data_hoje }}" min="{{ data_hoje }}" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100 btn-touch fw-bold">
-                Ver Horários Disponíveis
-            </button>
-        </form>
+<!-- ===== CABEÇALHO DA TELA ===== -->
+<div class="text-center mb-4">
+    <div class="icon-circle mx-auto mb-3">
+        <i class="bi bi-calendar-check fs-2"></i>
     </div>
+    <div class="section-label">Passo 1 de 2</div>
+    <h2 class="fw-bold fs-3 text-white">Escolha o Serviço e a Data</h2>
+    <p class="text-light opacity-75 small">Selecione o serviço desejado e a data para ver os horários disponíveis.</p>
 </div>
+
+<!-- ===== CARD DO FORMULÁRIO ===== -->
+<div class="glass-card">
+    <form action="{{ url_for('tela1_menu') }}" method="POST">
+        
+        <!-- Campo: Serviço -->
+        <div class="mb-4">
+            <label for="servico_id" class="form-label-custom">
+                <i class="bi bi-scissors me-1" style="color: var(--destaque-ouro);"></i> SERVIÇO DESEJADO
+            </label>
+            <select name="servico_id" id="servico_id" class="form-select form-select-custom" required>
+                <option value="" selected disabled>Selecione um serviço...</option>
+                {% for servico in servicos %}
+                    <option value="{{ servico.id }}">
+                        {{ servico.nome }} — R$ {{ "%.2f"|format(servico.preco) }} ({{ servico.duracao_min }} min)
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Campo: Data -->
+        <div class="mb-4">
+            <label for="data_agendamento" class="form-label-custom">
+                <i class="bi bi-calendar3 me-1" style="color: var(--destaque-ouro);"></i> DATA DO ATENDIMENTO
+            </label>
+            <input type="date" name="data_agendamento" id="data_agendamento" class="form-control form-control-custom" value="{{ data_hoje }}" min="{{ data_hoje }}" required>
+        </div>
+
+        <!-- Botão de Ação -->
+        <button type="submit" class="btn-action">
+            <span>Ver Horários Disponíveis</span>
+            <i class="bi bi-arrow-right"></i>
+        </button>
+    </form>
+
+    <!-- Botão Secundário -->
+    <a href="/" class="btn-secondary-custom">
+        <i class="bi bi-arrow-left me-1"></i> Voltar para o início
+    </a>
+</div>
+
+<!-- ===== RODAPÉ PREMIUM ===== -->
+<footer class="glass-card text-center text-md-start mb-0 footer-premium">
+    <div class="row g-4 align-items-center">
+        <!-- Coluna 1: Logo e Slogan -->
+        <div class="col-12 col-md-4 text-center text-md-start">
+            <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3 mb-2">
+                <img src="{{ url_for('static', filename='imagens/Logo.png') }}" alt="Logo Barbearia JP" style="height: 45px; width: auto;">
+                <div>
+                    <h5 class="fw-bold fs-6 text-white mb-0">Barbearia JP</h5>
+                    <span class="badge mt-1" style="background-color: var(--destaque-ouro); color: #121212; font-size: 0.6rem; letter-spacing: 1px;">DESDE 2014</span>
+                </div>
+            </div>
+            <p class="small text-light opacity-75 mb-0 mt-2">Excelência e estilo garantido para o seu visual.</p>
+        </div>
+
+        <!-- Coluna 2: Horários -->
+        <div class="col-12 col-md-4 text-center text-md-start">
+            <h5 class="fw-bold fs-6 text-white mb-3">
+                <i class="bi bi-clock me-1" style="color: var(--destaque-ouro);"></i> Horário
+            </h5>
+            <div class="d-flex flex-column gap-1">
+                <span class="small text-light opacity-75"><i class="bi bi-check2-circle me-1" style="color: var(--destaque-ouro);"></i> Terça a Sábado: 09:00 – 19:00</span>
+                <span class="small text-light opacity-75"><i class="bi bi-x-circle me-1 text-danger"></i> Domingo e Segunda: Fechado</span>
+            </div>
+        </div>
+
+        <!-- Coluna 3: Localização e Contato -->
+        <div class="col-12 col-md-4 text-center text-md-start">
+            <h5 class="fw-bold fs-6 text-white mb-3">
+                <i class="bi bi-geo-alt me-1" style="color: var(--destaque-ouro);"></i> Localização
+            </h5>
+            <p class="small text-light opacity-75 mb-2">Rua da Barbearia, Nº 100 — Centro</p>
+            
+            <a href="https://wa.me/5512999998888" target="_blank" class="btn-whatsapp-footer">
+                <i class="bi bi-whatsapp"></i> (12) 99999-8888
+            </a>
+        </div>
+    </div>
+
+    <!-- Linha Final de Copyright -->
+    <div class="footer-bottom mt-4 pt-3 text-center" style="border-top: 1px solid rgba(255,255,255,0.05);">
+        <p class="small mb-0" style="color: #6c757d;">
+            &copy; 2024 Barbearia JP. Todos os direitos reservados. Feito com <i class="bi bi-heart-fill text-danger" style="font-size: 0.7rem;"></i> e estilo.
+        </p>
+    </div>
+</footer>
 {% endblock %}

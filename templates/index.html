@@ -1,0 +1,161 @@
+<!-- index.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<!-- ===== HERO ===== -->
+<section class="hero-section">
+    <div class="hero-overlay">
+        <span class="badge hero-badge px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 shadow-sm">
+            Estilo & Tradição
+        </span>
+        <h1 class="display-4 fw-bold mb-3 text-white">Barbearia JP</h1>
+        <p class="lead mb-4 mx-auto hero-text fs-6">
+            O melhor corte e tratamento da região. Agende seu horário de forma rápida
+            e garanta seu visual impecável.
+        </p>
+        <a href="{{ url_for('tela1_menu') }}" class="btn-action" style="width: auto; padding: 14px 28px;">
+            <span>Realize seu Agendamento</span>
+            <i class="bi bi-calendar-check-fill"></i>
+        </a>
+    </div>
+</section>
+
+<!-- ===== HISTÓRIA ===== -->
+<section class="glass-card">
+    <div class="row align-items-center g-4">
+        <div class="col-12 col-md-3 text-center">
+            <!-- Logo no círculo de destaque -->
+            <div class="logo-circle mx-auto">
+                <img src="{{ url_for('static', filename='imagens/Logo.png') }}" alt="Logo Barbearia JP" class="history-logo">
+            </div>
+        </div>
+        <div class="col-12 col-md-9 text-center text-md-start">
+            <div class="section-label">Nossa Essência</div>
+            <h3 class="fw-bold fs-5 text-white mb-2">Conheça Nossa História</h3>
+            <p class="text-light opacity-75 small mb-0 lh-lg">
+                Fundada por João Paulo, a Barbearia JP nasceu com o propósito de oferecer excelência e cuidado no visual masculino. Unimos a tradição dos cortes clássicos às tendências modernas, em um espaço pensado para proporcionar conforto, boa conversa e atendimento de primeira.
+                <br><br>
+                Com mais de 10 anos de história, nosso ambiente acolhedor guarda memórias e transmite um estilo único, feito para receber você com autenticidade e dedicação.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TABELA DE PREÇOS ===== -->
+<section class="glass-card">
+    <div class="d-flex align-items-center justify-content-between mb-3 pb-3" style="border-bottom: 1px solid var(--border-subtle);">
+        <div class="section-label mb-0">Valores Oficiais</div>
+        <span class="badge bg-secondary bg-opacity-50 px-3 py-2 rounded-pill">Tabela de Preços</span>
+    </div>
+
+    <ul class="list-unstyled mb-0">
+        {% if servicos %}
+            {% for s in servicos %}
+                <li class="price-item d-flex justify-content-between align-items-center py-3">
+                    <div class="pe-3">
+                        <h6 class="fw-bold mb-1 text-white fs-6">{{ s.nome }}</h6>
+                        
+                        <!-- Descrição que vem do Banco de Dados -->
+                        <p class="text-light opacity-75 mb-2" style="font-size: 0.8rem; line-height: 1.4;">
+                            {{ s.descricao if s.descricao else "Atendimento exclusivo e personalizado." }}
+                        </p>
+
+                        <!-- Tempo estimado -->
+                        <span class="text-secondary" style="font-size: 0.75rem;">
+                            <i class="bi bi-clock me-1" style="color: var(--destaque-ouro);"></i> 
+                            Duração: {{ s.duracao_min }} min
+                        </span>
+                    </div>
+                    <!-- Preço em Dourado -->
+                    <span class="fw-bold fs-5" style="color: var(--destaque-ouro); white-space: nowrap;">R$ {{ "%.2f"|format(s.preco) }}</span>
+                </li>
+            {% endfor %}
+        {% else %}
+            <!-- Fallback (Caso o banco esteja vazio ou não inicializado) -->
+            <li class="price-item d-flex justify-content-between align-items-center py-3">
+                <div class="pe-3">
+                    <h6 class="fw-bold mb-1 text-white fs-6">Corte Social</h6>
+                    <p class="text-light opacity-75 mb-2" style="font-size: 0.8rem; line-height: 1.4;">
+                        Corte clássico e bem estruturado, com acabamento limpo e moderno para realçar o estilo masculino.
+                    </p>
+                    <span class="text-secondary" style="font-size: 0.75rem;">
+                        <i class="bi bi-clock me-1" style="color: var(--destaque-ouro);"></i> Duração: 30 min
+                    </span>
+                </div>
+                <span class="fw-bold fs-5" style="color: var(--destaque-ouro); white-space: nowrap;">R$ 35,00</span>
+            </li>
+            <li class="price-item d-flex justify-content-between align-items-center py-3">
+                <div class="pe-3">
+                    <h6 class="fw-bold mb-1 text-white fs-6">Barba Completa</h6>
+                    <p class="text-light opacity-75 mb-2" style="font-size: 0.8rem; line-height: 1.4;">
+                        Aparar, alinhar e desenhar a barba, com hidratação e finalização para um visual elegante.
+                    </p>
+                    <span class="text-secondary" style="font-size: 0.75rem;">
+                        <i class="bi bi-clock me-1" style="color: var(--destaque-ouro);"></i> Duração: 20 min
+                    </span>
+                </div>
+                <span class="fw-bold fs-5" style="color: var(--destaque-ouro); white-space: nowrap;">R$ 25,00</span>
+            </li>
+            <li class="price-item d-flex justify-content-between align-items-center py-3">
+                <div class="pe-3">
+                    <h6 class="fw-bold mb-1 text-white fs-6">Combo Corte + Barba</h6>
+                    <p class="text-light opacity-75 mb-2" style="font-size: 0.8rem; line-height: 1.4;">
+                        Pacote completo: corte social e barba bem definida, garantindo um visual renovado e sofisticado.
+                    </p>
+                    <span class="text-secondary" style="font-size: 0.75rem;">
+                        <i class="bi bi-clock me-1" style="color: var(--destaque-ouro);"></i> Duração: 50 min
+                    </span>
+                </div>
+                <span class="fw-bold fs-5" style="color: var(--destaque-ouro); white-space: nowrap;">R$ 55,00</span>
+            </li>
+        {% endif %}
+    </ul>
+</section>
+
+<!-- ===== RODAPÉ INFO ===== -->
+<footer class="glass-card text-center text-md-start mb-0 footer-premium">
+    <div class="row g-4 align-items-center">
+        <!-- Coluna 1: Logo e Slogan -->
+        <div class="col-12 col-md-4 text-center text-md-start">
+            <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3 mb-2">
+                <img src="{{ url_for('static', filename='imagens/Logo.png') }}" alt="Logo Barbearia JP" style="height: 45px; width: auto;">
+                <div>
+                    <h5 class="fw-bold fs-6 text-white mb-0">Barbearia JP</h5>
+                    <span class="badge mt-1" style="background-color: var(--destaque-ouro); color: #121212; font-size: 0.6rem; letter-spacing: 1px;">DESDE 2014</span>
+                </div>
+            </div>
+            <p class="small text-light opacity-75 mb-0 mt-2">Excelência e estilo garantido para o seu visual.</p>
+        </div>
+
+        <!-- Coluna 2: Horários -->
+        <div class="col-12 col-md-4 text-center text-md-start">
+            <h5 class="fw-bold fs-6 text-white mb-3">
+                <i class="bi bi-clock me-1" style="color: var(--destaque-ouro);"></i> Horário
+            </h5>
+            <div class="d-flex flex-column gap-1">
+                <span class="small text-light opacity-75"><i class="bi bi-check2-circle me-1" style="color: var(--destaque-ouro);"></i> Terça a Sábado: 09:00 – 19:00</span>
+                <span class="small text-light opacity-75"><i class="bi bi-x-circle me-1 text-danger"></i> Domingo e Segunda: Fechado</span>
+            </div>
+        </div>
+
+        <!-- Coluna 3: Localização e Contato -->
+        <div class="col-12 col-md-4 text-center text-md-start">
+            <h5 class="fw-bold fs-6 text-white mb-3">
+                <i class="bi bi-geo-alt me-1" style="color: var(--destaque-ouro);"></i> Localização
+            </h5>
+            <p class="small text-light opacity-75 mb-2">Rua da Barbearia, Nº 100 — Centro</p>
+            
+            <!-- Botão do WhatsApp mais bonito -->
+            <a href="https://wa.me/5512999998888" target="_blank" class="btn-whatsapp-footer">
+                <i class="bi bi-whatsapp"></i> (12) 99999-8888
+            </a>
+        </div>
+    </div>
+
+    <!-- Linha Final de Copyright -->
+    <div class="footer-bottom mt-4 pt-3 text-center" style="border-top: 1px solid rgba(255,255,255,0.05);">
+        <p class="small mb-0" style="color: #6c757d;">
+            &copy;Barbearia JP. Todos os direitos reservados.
+    </div>
+</footer>
+{% endblock %}

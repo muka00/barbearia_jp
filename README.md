@@ -1,4 +1,4 @@
-# Barbearia JP - MVP de Agendamento Online
+# 💈 Barbearia JP - MVP de Agendamento Online
 
 > Aplicação web mobile-first desenvolvida em Flask para simplificar e automatizar o processo de agendamento de serviços em barbearias, com integração direta para envio de confirmações via WhatsApp.
 
@@ -9,10 +9,20 @@
 O **Barbearia JP** é um protótipo funcional (MVP) focado na experiência do usuário (UX) e acessibilidade. O sistema permite que clientes naveguem pelos serviços oferecidos, escolham horários disponíveis em tempo real e finalizem o agendamento de forma rápida e intuitiva em dispositivos móveis e desktops.
 
 ### 🎯 Funcionalidades Principais
-- **Visualização de Serviços e Valores:** Apresentação clara de cortes e pacotes com preços e tempos estimados.
-- **Agendamento Interativo:** Seleção simples de data, horários dinâmicos e prevenção de conflitos de agendamento.
+- **Visualização de Serviços e Valores:** Apresentação clara de cortes e pacotes com preços, tempos estimados e descrições detalhadas.
+- **Agendamento Interativo:** Seleção simples de data, grade de horários dinâmica (que oculta horários já ocupados) e prevenção de conflitos de agendamento.
 - **Confirmação via WhatsApp:** Redirecionamento automático com mensagem formatada para confirmação direta com o estabelecimento.
-- **Interface Responsiva & Acessível:** Layout moderno (Cinza Grafite e Azul Petróleo), botões otimizados e botão de alto contraste visual.
+- **Interface Responsiva & Acessível:** Layout moderno e sofisticado (Tema *Premium* em Cinza Carvão e Dourado), botões otimizados para toque (touch-friendly) e botão de alto contraste visual.
+
+---
+
+## 🎨 Identidade Visual & Design System
+
+O projeto abandonou o visual genérico de "app de tecnologia" e adotou uma estética **Premium de Barbearia Clássica**:
+- **Cores:** Fundo em Carvão Profundo (`#121212`), Cards em Grafite (`#1c1c1e`) e Destaques em Dourado/Latão (`#d4af37`).
+- **Tipografia:** *Plus Jakarta Sans* (Google Fonts) para um toque moderno e legível.
+- **CSS Modular:** Todo o estilo está centralizado em `static/css/style.css`, facilitando a manutenção e a troca de temas.
+- **Micro-interações:** Efeitos de *hover* suaves, brilho dourado e animações de escala na logo e nos botões.
 
 ---
 
@@ -23,8 +33,6 @@ O **Barbearia JP** é um protótipo funcional (MVP) focado na experiência do us
 - **Front-end:** HTML5, CSS3, Bootstrap 5, JavaScript
 - **Banco de Dados:** SQLite & SQLAlchemy
 - **Controle de Versão:** Git & GitHub CLI (`gh`)
-
----
 
 ## 🚀 Como Executar o Projeto Localmente
 
