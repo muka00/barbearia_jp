@@ -44,10 +44,10 @@ O projeto abandonou o visual genérico de "app de tecnologia" e adotou uma esté
 ### Passo a Passo
 
 1. **Clonar o repositório:**
-   ```bash
-   git clone [https://github.com/muka00/barbearia_jp.git](https://github.com/muka00/barbearia_jp.git)
-   cd barbearia_jp
-
+ ```bash
+  git clone [https://github.com/muka00/barbearia_jp.git](https://github.com/muka00/barbearia_jp.git)
+  cd barbearia_jp
+```
 2. **Criar e ativar o ambiente virtual (Recomendado):**
 
 ```bash
@@ -71,6 +71,7 @@ pip install -r requirements.txt
 python app.py
 ```
 5. **Acessar no navegador:**
+
 Abra o seu navegador e acesse: http://127.0.0.1:5000
 
 ## Desenvolvedores
