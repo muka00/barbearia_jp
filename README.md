@@ -34,6 +34,7 @@ O projeto abandonou o visual genérico de "app de tecnologia" e adotou uma esté
 - **Banco de Dados:** SQLite & SQLAlchemy
 - **Controle de Versão:** Git & GitHub CLI (`gh`)
 
+
 ## 🚀 Como Executar o Projeto Localmente
 
 ### Pré-requisitos
@@ -46,3 +47,33 @@ O projeto abandonou o visual genérico de "app de tecnologia" e adotou uma esté
    ```bash
    git clone [https://github.com/muka00/barbearia_jp.git](https://github.com/muka00/barbearia_jp.git)
    cd barbearia_jp
+
+2. **Criar e ativar o ambiente virtual (Recomendado):**
+
+   ```bash
+# Windows
+python -m venv venv
+venv\Scripts\activate
+
+# Linux / macOS
+python3 -m venv venv
+source venv/bin/activate
+
+3. **Instalar as dependências:**
+
+   ```bash
+pip install -r requirements.txt
+(Caso o arquivo não exista, instale manualmente: pip install Flask Flask-SQLAlchemy pytest)
+
+4. **Executar a aplicação:**
+
+   ```bash
+python app.py
+
+5. **Acessar no navegador:**
+Abra o seu navegador e acesse: http://127.0.0.1:5000
+
+## Desenvolvedores
+
+[![Samuel Fernandes](https://avatars.githubusercontent.com/u/212030742?v=4)](https://github.com/muka00)  
+[**Samuel Fernandes**](https://github.com/muka00)
