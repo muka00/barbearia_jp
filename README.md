@@ -1,3 +1,7 @@
+<div align="center">
+   <img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=RED&style=for-the-badge" alt="Status: Em Desenvolvimento"/>
+</div>
+
 # 💈 Barbearia JP - MVP de Agendamento Online
 
 > Aplicação web mobile-first desenvolvida em Flask para simplificar e automatizar o processo de agendamento de serviços em barbearias, com integração direta para envio de confirmações via WhatsApp.
