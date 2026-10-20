@@ -50,26 +50,26 @@ O projeto abandonou o visual genérico de "app de tecnologia" e adotou uma esté
 
 2. **Criar e ativar o ambiente virtual (Recomendado):**
 
-   ```bash
+```bash
 # Windows
 python -m venv venv
 venv\Scripts\activate
-
 # Linux / macOS
 python3 -m venv venv
-source venv/bin/activate
-
+source venv/bin/activate 
+```
 3. **Instalar as dependências:**
 
-   ```bash
+ ```bash
 pip install -r requirements.txt
+```
 (Caso o arquivo não exista, instale manualmente: pip install Flask Flask-SQLAlchemy pytest)
 
 4. **Executar a aplicação:**
 
-   ```bash
+```bash
 python app.py
-
+```
 5. **Acessar no navegador:**
 Abra o seu navegador e acesse: http://127.0.0.1:5000
 
