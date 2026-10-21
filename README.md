@@ -44,13 +44,12 @@ O projeto abandonou o visual genérico de "app de tecnologia" e adotou uma esté
 ### Passo a Passo
 
 1. **Clonar o repositório:**
-   ```bash
+
    git clone [https://github.com/muka00/barbearia_jp.git](https://github.com/muka00/barbearia_jp.git)
    cd barbearia_jp
 
 2. **Criar e ativar o ambiente virtual (Recomendado):**
 
-   ```bash
 # Windows
 python -m venv venv
 venv\Scripts\activate
@@ -61,13 +60,11 @@ source venv/bin/activate
 
 3. **Instalar as dependências:**
 
-   ```bash
 pip install -r requirements.txt
 (Caso o arquivo não exista, instale manualmente: pip install Flask Flask-SQLAlchemy pytest)
 
 4. **Executar a aplicação:**
 
-   ```bash
 python app.py
 
 5. **Acessar no navegador:**
