@@ -118,9 +118,18 @@ def tela2_grade():
         data_fmt = data_str
 
     horarios_base = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:30"]
+    
+    # CORREÇÃO: Converte a string 'YYYY-MM-DD' para um objeto datetime.date
+    # Isso resolve o erro de comparação "date = character varying" no PostgreSQL
+    try:
+        data_busca = datetime.strptime(data_str, '%Y-%m-%d').date()
+    except (ValueError, TypeError):
+        data_busca = datetime.now().date()
+
     agendamentos_do_dia = Agendamento.query.filter(
-        db.func.date(Agendamento.data_hora) == data_str
+        db.func.date(Agendamento.data_hora) == data_busca
     ).all()
+    
     horarios_ocupados = [ag.data_hora.strftime('%H:%M') for ag in agendamentos_do_dia]
     horarios_disponiveis = [h for h in horarios_base if h not in horarios_ocupados]
     
@@ -129,7 +138,7 @@ def tela2_grade():
 @app.route('/confirmacao/<int:agendamento_id>')
 def tela3_resultado(agendamento_id):
     agendamento = db.get_or_404(Agendamento, agendamento_id)
-    telefone = "5512999998888"
+    telefone = "5512992194940"
     data_fmt = agendamento.data_hora.strftime('%d/%m/%Y')
     hora_fmt = agendamento.data_hora.strftime('%H:%M')
     texto = (f"Olá, João Paulo! Confirmo meu agendamento (#JP-{agendamento.id}):\n"
