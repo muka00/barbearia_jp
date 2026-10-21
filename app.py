@@ -6,7 +6,18 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'chave_secreta_para_desenvolvimento_dev_123'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///barbearia.db'
+
+# --- CONFIGURAÇÃO DO BANCO DE DADOS ---
+# Busca a URL do banco no Render (Variável de Ambiente)
+database_url = os.environ.get('DATABASE_URL')
+
+if database_url:
+    # O Render fornece a URL com 'postgres://', mas o SQLAlchemy exige 'postgresql://'
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url.replace("postgres://", "postgresql://", 1)
+else:
+    # Se não encontrar (rodando local), usa o SQLite para testes
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///barbearia.db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -51,6 +62,11 @@ with app.app_context():
 def index():
     servicos = Servico.query.all()
     return render_template('index.html', servicos=servicos)
+
+@app.route('/health')
+def health_check():
+    """Rota para monitoramento externo (UptimeRobot)"""
+    return {"status": "ok", "servico": "Barbearia JP"}, 200
 
 @app.route('/servicos', methods=['GET', 'POST'])
 def tela1_menu():
@@ -125,4 +141,7 @@ def tela3_resultado(agendamento_id):
     return render_template('tela3_resultado.html', agendamento=agendamento, link_whatsapp=link)
 
 if __name__ == '__main__':
+    # Garante que o banco seja criado antes de rodar localmente
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
