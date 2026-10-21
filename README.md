@@ -1,3 +1,7 @@
+<div align="center">
+   <img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=RED&style=for-the-badge" alt="Status: Em Desenvolvimento"/>
+</div>
+
 # 💈 Barbearia JP - MVP de Agendamento Online
 
 > Aplicação web mobile-first desenvolvida em Flask para simplificar e automatizar o processo de agendamento de serviços em barbearias, com integração direta para envio de confirmações via WhatsApp.
@@ -44,30 +48,45 @@ O projeto abandonou o visual genérico de "app de tecnologia" e adotou uma esté
 ### Passo a Passo
 
 1. **Clonar o repositório:**
+ ```bash
 
    git clone [https://github.com/muka00/barbearia_jp.git](https://github.com/muka00/barbearia_jp.git)
    cd barbearia_jp
+```
 
 2. **Criar e ativar o ambiente virtual (Recomendado):**
 
+=======
+ ```bash
+  git clone [https://github.com/muka00/barbearia_jp.git](https://github.com/muka00/barbearia_jp.git)
+  cd barbearia_jp
+```
+2. **Criar e ativar o ambiente virtual (Recomendado):**
+
+```bash
 # Windows
 python -m venv venv
 venv\Scripts\activate
-
 # Linux / macOS
 python3 -m venv venv
-source venv/bin/activate
-
+source venv/bin/activate 
+```
 3. **Instalar as dependências:**
 
+=======
+ ```bash
 pip install -r requirements.txt
+```
 (Caso o arquivo não exista, instale manualmente: pip install Flask Flask-SQLAlchemy pytest)
 
 4. **Executar a aplicação:**
 
+=======
+```bash
 python app.py
-
+```
 5. **Acessar no navegador:**
+
 Abra o seu navegador e acesse: http://127.0.0.1:5000
 
 ## Desenvolvedores
