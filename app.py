@@ -90,48 +90,57 @@ def tela2_grade():
         nome = request.form.get('nome', '').strip()
         whatsapp = request.form.get('whatsapp', '').strip()
         
+        # Validação estrita dos campos
         if not nome or len(nome) < 3 or not whatsapp or len(whatsapp) < 10 or not horario_str:
             flash("Preencha todos os campos corretamente.", "danger")
             return redirect(url_for('tela2_grade', servico_id=servico_id, data=data_str))
         
         data_hora_obj = datetime.strptime(f"{data_str} {horario_str}", '%Y-%m-%d %H:%M')
+
+        # BLOQUEIO DE DOMINGO (weekday() == 6 é Domingo)
+        if data_hora_obj.weekday() == 6:
+            flash("A barbearia está fechada aos Domingos. Por favor, escolha outra data.", "danger")
+            return redirect(url_for('tela2_grade', servico_id=servico_id, data=data_str))
         
+        # Verifica se o horário já está ocupado
         conflito = Agendamento.query.filter_by(data_hora=data_hora_obj).first()
         if conflito:
             flash("Ops! Este horário acabou de ser reservado. Escolha outro.", "danger")
             return redirect(url_for('tela2_grade', servico_id=servico_id, data=data_str))
         
+        # Gravação no Banco
         novo = Agendamento(cliente_nome=nome, cliente_whatsapp=whatsapp,
                            servico_id=int(servico_id), data_hora=data_hora_obj)
         db.session.add(novo)
         db.session.commit()
         return redirect(url_for('tela3_resultado', agendamento_id=novo.id))
     
+    # Método GET (Exibe a tela)
     servico_id = request.args.get('servico_id')
     data_str = request.args.get('data')
     servico = db.get_or_404(Servico, servico_id)
     
+    # Formata a data para exibição
     try:
         data_obj = datetime.strptime(data_str, '%Y-%m-%d')
         data_fmt = data_obj.strftime('%d/%m/%Y')
+        data_busca = data_obj.date()
     except (ValueError, TypeError):
         data_fmt = data_str
-
-    horarios_base = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:30"]
-    
-    # CORREÇÃO: Converte a string 'YYYY-MM-DD' para um objeto datetime.date
-    # Isso resolve o erro de comparação "date = character varying" no PostgreSQL
-    try:
-        data_busca = datetime.strptime(data_str, '%Y-%m-%d').date()
-    except (ValueError, TypeError):
         data_busca = datetime.now().date()
 
-    agendamentos_do_dia = Agendamento.query.filter(
-        db.func.date(Agendamento.data_hora) == data_busca
-    ).all()
-    
-    horarios_ocupados = [ag.data_hora.strftime('%H:%M') for ag in agendamentos_do_dia]
-    horarios_disponiveis = [h for h in horarios_base if h not in horarios_ocupados]
+    horarios_base = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:30"]
+
+    # SE A DATA FOR DOMINGO, A GRADE FICA VAZIA (Agenda Lotada)
+    if data_busca.weekday() == 6:
+        horarios_disponiveis = []
+    else:
+        # Busca os agendamentos do dia e filtra os horários vagos
+        agendamentos_do_dia = Agendamento.query.filter(
+            db.func.date(Agendamento.data_hora) == data_busca
+        ).all()
+        horarios_ocupados = [ag.data_hora.strftime('%H:%M') for ag in agendamentos_do_dia]
+        horarios_disponiveis = [h for h in horarios_base if h not in horarios_ocupados]
     
     return render_template('tela2_grade.html', servico=servico, data=data_str, data_fmt=data_fmt, horarios=horarios_disponiveis)
 
@@ -141,7 +150,7 @@ def tela3_resultado(agendamento_id):
     telefone = "5512992194940"
     data_fmt = agendamento.data_hora.strftime('%d/%m/%Y')
     hora_fmt = agendamento.data_hora.strftime('%H:%M')
-    texto = (f"Olá, João Paulo! Confirmo meu agendamento (#JP-{agendamento.id}):\n"
+    texto = (f"Olá, João! Confirmo meu agendamento (#JP-{agendamento.id}):\n"
              f"• *Cliente:* {agendamento.cliente_nome}\n"
              f"• *Serviço:* {agendamento.servico.nome}\n"
              f"• *Data/Hora:* {data_fmt} às {hora_fmt}\n"
@@ -150,7 +159,6 @@ def tela3_resultado(agendamento_id):
     return render_template('tela3_resultado.html', agendamento=agendamento, link_whatsapp=link)
 
 if __name__ == '__main__':
-    # Garante que o banco seja criado antes de rodar localmente
     with app.app_context():
         db.create_all()
     app.run(debug=True)
