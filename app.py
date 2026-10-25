@@ -1,6 +1,6 @@
 ﻿from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timedelta
 import urllib.parse
 import os
 
@@ -8,18 +8,14 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'chave_secreta_para_desenvolvimento_dev_123'
 
 # --- CONFIGURAÇÃO DO BANCO DE DADOS ---
-# Busca a URL do banco no Render (Variável de Ambiente)
 database_url = os.environ.get('DATABASE_URL')
 
 if database_url:
-    # O Render fornece a URL com 'postgres://', mas o SQLAlchemy exige 'postgresql://'
     app.config['SQLALCHEMY_DATABASE_URI'] = database_url.replace("postgres://", "postgresql://", 1)
 else:
-    # Se não encontrar (rodando local), usa o SQLite para testes
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///barbearia.db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db = SQLAlchemy(app)
 
 # --- MODELOS DE DADOS (MVC) ---
@@ -37,7 +33,6 @@ class Agendamento(db.Model):
     servico_id = db.Column(db.Integer, db.ForeignKey('servico.id'), nullable=False)
     data_hora = db.Column(db.DateTime, nullable=False)
     status = db.Column(db.String(20), default='Confirmado')
-    
     servico = db.relationship('Servico', backref='agendamentos')
 
 # Inicialização e popular dados
@@ -65,7 +60,6 @@ def index():
 
 @app.route('/health')
 def health_check():
-    """Rota para monitoramento externo (UptimeRobot)"""
     return {"status": "ok", "servico": "Barbearia JP"}, 200
 
 @app.route('/servicos', methods=['GET', 'POST'])
@@ -90,37 +84,31 @@ def tela2_grade():
         nome = request.form.get('nome', '').strip()
         whatsapp = request.form.get('whatsapp', '').strip()
         
-        # Validação estrita dos campos
         if not nome or len(nome) < 3 or not whatsapp or len(whatsapp) < 10 or not horario_str:
             flash("Preencha todos os campos corretamente.", "danger")
             return redirect(url_for('tela2_grade', servico_id=servico_id, data=data_str))
         
         data_hora_obj = datetime.strptime(f"{data_str} {horario_str}", '%Y-%m-%d %H:%M')
 
-        # BLOQUEIO DE DOMINGO (weekday() == 6 é Domingo)
         if data_hora_obj.weekday() == 6:
-            flash("A barbearia está fechada aos Domingos. Por favor, escolha outra data.", "danger")
+            flash("A barbearia está fechada aos Domingos.", "danger")
             return redirect(url_for('tela2_grade', servico_id=servico_id, data=data_str))
         
-        # Verifica se o horário já está ocupado
         conflito = Agendamento.query.filter_by(data_hora=data_hora_obj).first()
         if conflito:
             flash("Ops! Este horário acabou de ser reservado. Escolha outro.", "danger")
             return redirect(url_for('tela2_grade', servico_id=servico_id, data=data_str))
         
-        # Gravação no Banco
         novo = Agendamento(cliente_nome=nome, cliente_whatsapp=whatsapp,
                            servico_id=int(servico_id), data_hora=data_hora_obj)
         db.session.add(novo)
         db.session.commit()
         return redirect(url_for('tela3_resultado', agendamento_id=novo.id))
     
-    # Método GET (Exibe a tela)
     servico_id = request.args.get('servico_id')
     data_str = request.args.get('data')
     servico = db.get_or_404(Servico, servico_id)
     
-    # Formata a data para exibição
     try:
         data_obj = datetime.strptime(data_str, '%Y-%m-%d')
         data_fmt = data_obj.strftime('%d/%m/%Y')
@@ -129,22 +117,35 @@ def tela2_grade():
         data_fmt = data_str
         data_busca = datetime.now().date()
 
-    # --- GRADE DE HORÁRIOS: 30 em 30 min, com almoço das 12h às 13h ---
     horarios_manha = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30"]
     horarios_tarde = ["13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
                       "16:00", "16:30", "17:00", "17:30", "18:00", "18:30"]
     horarios_base = horarios_manha + horarios_tarde
 
-    # SE A DATA FOR DOMINGO, A GRADE FICA VAZIA (Agenda Lotada)
     if data_busca.weekday() == 6:
         horarios_disponiveis = []
     else:
-        # Busca os agendamentos do dia e filtra os horários vagos
         agendamentos_do_dia = Agendamento.query.filter(
             db.func.date(Agendamento.data_hora) == data_busca
         ).all()
-        horarios_ocupados = [ag.data_hora.strftime('%H:%M') for ag in agendamentos_do_dia]
-        horarios_disponiveis = [h for h in horarios_base if h not in horarios_ocupados]
+        
+        horarios_bloqueados = set()
+        for ag in agendamentos_do_dia:
+            hora_inicio = ag.data_hora
+            duracao = ag.servico.duracao_min
+            
+            # Bloqueia o slot inicial
+            horarios_bloqueados.add(hora_inicio.strftime('%H:%M'))
+            
+            # Bloqueia slots adicionais (a cada 30 min) se o serviço for longo
+            if duracao > 30:
+                hora_extra = hora_inicio + timedelta(minutes=30)
+                horarios_bloqueados.add(hora_extra.strftime('%H:%M'))
+            if duracao > 60:
+                hora_extra2 = hora_inicio + timedelta(minutes=60)
+                horarios_bloqueados.add(hora_extra2.strftime('%H:%M'))
+
+        horarios_disponiveis = [h for h in horarios_base if h not in horarios_bloqueados]
     
     return render_template('tela2_grade.html', servico=servico, data=data_str, data_fmt=data_fmt, horarios=horarios_disponiveis)
 
