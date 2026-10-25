@@ -129,7 +129,11 @@ def tela2_grade():
         data_fmt = data_str
         data_busca = datetime.now().date()
 
-    horarios_base = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:30"]
+    # --- GRADE DE HORÁRIOS: 30 em 30 min, com almoço das 12h às 13h ---
+    horarios_manha = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30"]
+    horarios_tarde = ["13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
+                      "16:00", "16:30", "17:00", "17:30", "18:00", "18:30"]
+    horarios_base = horarios_manha + horarios_tarde
 
     # SE A DATA FOR DOMINGO, A GRADE FICA VAZIA (Agenda Lotada)
     if data_busca.weekday() == 6:
